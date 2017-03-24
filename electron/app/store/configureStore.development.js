@@ -3,8 +3,32 @@ import thunk from 'redux-thunk';
 import { hashHistory } from 'react-router';
 import { routerMiddleware, push } from 'react-router-redux';
 import createLogger from 'redux-logger';
-import rootReducer from '../reducers';
+import productionReducer from '../reducers/production';
+import engineerReducer from '../reducers/engineer';
 
+var rootReducer;
+
+const settings = require('electron-settings');
+
+settings.defaults({
+  app: 'production'
+});
+
+settings.get('app').then(val => {
+  switch (val) {
+    case 'production':
+      rootReducer = productionReducer;
+      break;
+    case 'engineer':
+      rootReducer = engineerReducer;
+      break;
+    default:
+      rootReducer = productionReducer;
+      break;
+  }
+
+    console.log(val);
+});
 
 const actionCreators = {
   push,
@@ -34,8 +58,8 @@ export default function configureStore(initialState) {
   const store = createStore(rootReducer, initialState, enhancer);
 
   if (module.hot) {
-    module.hot.accept('../reducers', () =>
-      store.replaceReducer(require('../reducers')) // eslint-disable-line global-require
+    module.hot.accept('../reducers/production', () =>
+      store.replaceReducer(require('../reducers/production')) // eslint-disable-line global-require
     );
   }
 
