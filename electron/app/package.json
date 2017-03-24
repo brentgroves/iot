@@ -1,0 +1,18 @@
+{
+  "name": "Ashley",
+  "productName": "Ashley",
+  "version": "1.0.0",
+  "description": "Busche Production Software",
+  "main": "./main.js",
+  "author": {
+    "name": "Brent Groves",
+    "email": "brent.groves@gmail.com",
+    "url": "https://github.com/robogroves"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "config": "^1.25.1",
+    "mssql": "^3.3.0",
+    "tedious": "^1.14.0"
+  }
+}
