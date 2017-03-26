@@ -5,6 +5,7 @@ import { routerMiddleware, push } from 'react-router-redux';
 import createLogger from 'redux-logger';
 import productionReducer from '../reducers/production';
 import engineerReducer from '../reducers/engineer';
+import motoReducer from '../reducers/moto';
 
 var rootReducer;
 
@@ -21,6 +22,9 @@ settings.get('app').then(val => {
       break;
     case 'engineer':
       rootReducer = engineerReducer;
+      break;
+    case 'moto':
+      rootReducer = motoReducer;
       break;
     default:
       rootReducer = productionReducer;

@@ -6,6 +6,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import prodRoutes from './routes/production/routes';
 //import routes from './routes/production/routes';
 import engRoutes from './routes/engineer/routes';
+import motoRoutes from './routes/moto/routes';
 import configureStore from './store/configureStore';
 
 const settings = require('electron-settings');
@@ -84,6 +85,11 @@ settings.get('app').then(val => {
 	    break;
 	  case 'engineer':
 	  	routes = engRoutes;
+		store = configureStore();
+		history = syncHistoryWithStore(hashHistory, store);
+	    break;
+	  case 'moto':
+	  	routes = motoRoutes;
 		store = configureStore();
 		history = syncHistoryWithStore(hashHistory, store);
 	    break;

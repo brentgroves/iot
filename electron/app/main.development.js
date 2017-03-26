@@ -101,6 +101,10 @@ app.on('ready', async () => {
         width=1900;
         height=1200;
         break;
+      case 'moto':
+        width=1400;
+        height=1200;
+        break;
       default:
         break;
     }
