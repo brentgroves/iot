@@ -7,7 +7,8 @@ client.on('connect', function () {
 //  client.subscribe('gato')
   client.publish('gato', 'ledon')
   console.log('connected');
-})
+});
+
 setTimeout(function(){
  // 	client.publish('gato', 'ledoff');
 	client.end();

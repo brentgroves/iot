@@ -5,6 +5,10 @@ import {LinkContainer} from 'react-router-bootstrap';
 import FanButton from '../../containers/moto/FanButton';
 import { Grid, Row, Col, Navbar, Nav, NavItem, NavDropdown, MenuItem, Jumbotron,Button} from 'react-bootstrap';
 import {Header as NavbarHeader, Brand as NavbarBrand, Toggle as NavbarToggle, Collapse as NavbarCollapse, Text as NavbarText } from 'react-bootstrap/lib/Navbar'
+//import mqtt from 'browserMqtt';
+//var client  = mqtt.connect('mqtt://test.mosquitto.org')
+//var client  = mqtt.connect({ host: 'localhost', port: 1885 }) //mosquitto
+
 
 export default class Fan extends Component {
 
@@ -18,6 +22,7 @@ export default class Fan extends Component {
 //      loading: false
     };
   }
+
 
   render() {
 

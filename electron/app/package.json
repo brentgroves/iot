@@ -12,6 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "config": "^1.25.1",
+    "mqtt": "^2.5.0",
     "mssql": "^3.3.0",
     "tedious": "^1.14.0"
   }

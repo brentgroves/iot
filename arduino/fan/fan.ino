@@ -38,7 +38,8 @@ int MOTOR_MAX_SPEED = 150; //can adjust to 255 for full motor speed.
 // the setup function runs once when you press reset or power the board
 void setup()
 {
-    Serial.begin(115200);
+    Serial.begin(9600);
+//    Serial.begin(115200);
     pinMode(LED2,OUTPUT);
     pinMode(MOTOR_FORWARD,OUTPUT); 
     pinMode(MOTOR_REVERSE,OUTPUT); 
@@ -65,30 +66,32 @@ void loop()
     if(CAN_MSGAVAIL == CAN.checkReceive())            // check if data coming
     {
         CAN.readMsgBuf(&len, buf);    // read data,  len: data length, buf: data buf
-
         unsigned char canId = CAN.getCanId();
-        unsigned char command =  buf[0];
         Serial.println("-----------------------------");
         Serial.println("get data from ID: ");
         Serial.println(canId);
 
-        for(int i = 0; i<len; i++)    // print the data
-        {
-            Serial.print(buf[i]);
-            Serial.print("\t");
+        if(10==canId){
+
+          unsigned char command =  buf[0];
+  
+          for(int i = 0; i<len; i++)    // print the data
+          {
+              Serial.print(buf[i]);
+              Serial.print("\t");
+          }
+          Serial.println();
+          Serial.print("command: ");
+          Serial.println(command);
+  
+          MOTOR_SPEED = 100;
+          analogWrite(MOTOR_FORWARD, MOTOR_SPEED);  //trigger forward pin
+          digitalWrite(MOTOR_REVERSE, LOW);
+          delay(10000);
+          MOTOR_SPEED = 250;
+          analogWrite(MOTOR_FORWARD, MOTOR_SPEED);  //trigger forward pin
+          delay(10000);
         }
-        Serial.println();
-        Serial.print("command: ");
-        Serial.println(command);
-
-        MOTOR_SPEED = 100;
-        analogWrite(MOTOR_FORWARD, MOTOR_SPEED);  //trigger forward pin
-        digitalWrite(MOTOR_REVERSE, LOW);
-        delay(10000);
-        MOTOR_SPEED = 250;
-        analogWrite(MOTOR_FORWARD, MOTOR_SPEED);  //trigger forward pin
-        delay(10000);
-
     }
 }
 
