@@ -1,4 +1,5 @@
 import { push } from 'react-router-redux';
+import * as API from '../../api/moto/Moto';
 
 
 
@@ -20,8 +21,23 @@ export function prodReports() {
   };
 }
 
+
+export function subscribe() {
+ return (dispatch,getState) => {
+    var disp = dispatch;
+    var getSt = getState;
+    API.subscribe(disp,getSt);
+  };
+}
+
 export function fan() {
  return (dispatch,getState) => {
       dispatch(push('/Fan'));
+  };
+}
+
+export function photocell() {
+ return (dispatch,getState) => {
+      dispatch(push('/Photocell'));
   };
 }

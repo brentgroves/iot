@@ -7,6 +7,7 @@ import POReqTrans from '../../containers/moto/port/POReqTrans';
 import GenReceivers from '../../containers/moto/gr/GenReceivers'
 import ProdReports from '../../containers/rpt/production/Reports'
 import Fan from '../../containers/moto/Fan'
+import Photocell from '../../containers/moto/Photocell'
 import '../../css/moto/app.global.css';
 
 
@@ -17,5 +18,6 @@ export default (
     <Route path="/GenReceivers" component={GenReceivers} />
     <Route path="/ProdReports" component={ProdReports} />
     <Route path="/Fan" component={Fan} />
+    <Route path="/Photocell" component={Photocell} />
   </Route>
 );

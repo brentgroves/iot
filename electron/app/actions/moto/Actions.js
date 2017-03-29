@@ -33,12 +33,19 @@ export function setStatus(status) {
 
 
 
-export function start(prime) {
+export function fanStart() {
  return (dispatch,getState) => {
     var disp = dispatch;
     var getSt = getState;
-    API.start(disp,getSt,prime);
+    API.fanStart(disp,getSt);
   };
 }
 
+export function subscribe() {
+ return (dispatch,getState) => {
+    var disp = dispatch;
+    var getSt = getState;
+    API.subscribe(disp,getSt);
+  };
+}
 

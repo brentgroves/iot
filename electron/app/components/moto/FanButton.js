@@ -28,7 +28,7 @@ const FanButton = React.createClass({
     if ('development'==process.env.NODE_ENV) {
       console.log('handleClick');
     }
-    this.props.start(true);
+    this.props.fanStart();
 
   }
 })

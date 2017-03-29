@@ -18,6 +18,7 @@ momentLocalizer(Moment);
 export default class Home extends Component {
   constructor(props) {
     super(props);
+    this.props.subscribe();
     this.state = {
      // loading: false
     };
@@ -55,7 +56,7 @@ export default class Home extends Component {
         <tbody>
           <tr>
               <td className="btnPrimary" onClick={()=>{this.props.fan();}}>OSEPP Fan</td>
-              <td className="btnSuccess"onClick={()=>{this.props.gr();}}>Sensors</td>
+              <td className="btnSuccess"onClick={()=>{this.props.photocell();}}>Photocell</td>
               <td className="btnWarning" onClick={()=>{this.props.prodReports();}}>Reports</td>
           </tr>
           </tbody>
