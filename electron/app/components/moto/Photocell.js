@@ -8,6 +8,17 @@ import {Header as NavbarHeader, Brand as NavbarBrand, Toggle as NavbarToggle, Co
 //import mqtt from 'browserMqtt';
 //var client  = mqtt.connect('mqtt://test.mosquitto.org')
 //var client  = mqtt.connect({ host: 'localhost', port: 1885 }) //mosquitto
+import Gauge from 'react-svg-gauge';
+import HorizontalGauge from 'react-horizontal-gauge';
+//https://www.npmjs.com/package/react-odometerjs
+var SegmentDisplay = require('react-segment-display');
+
+//https://reggino.github.io/react-svg-gauge
+
+
+
+//https://codepen.io/matthewvincent/pen/BKoYLm/
+
 
 
 export default class Fan extends Component {
@@ -26,7 +37,7 @@ export default class Fan extends Component {
 
   render() {
 
-  var goButton,navbar,cancelBtn,jumboTronTxt;
+  var clock,navbar,cancelBtn,jumboTronTxt;
 
   jumboTronTxt=
     <Row >
@@ -38,17 +49,21 @@ export default class Fan extends Component {
         </Jumbotron>
       </Col>
     </Row>
-  goButton = 
+  clock = 
   <div>
     <Row>
       <Col xs={1}>&nbsp;</Col>
     </Row>
     <Row>
-      <Col xs={5} >&nbsp;</Col>
-      <Col xs={2}>Photocell value: </Col>
-      <Col xs={5}>&nbsp;</Col>
+      <Col > 
+       <Clock />
+      </Col>
     </Row>
-
+    <Row>
+      <Col > 
+       <Gauge value={50} width={400} height={320} label="This is my Gauge" />
+      </Col>
+    </Row>
   </div>
 
   cancelBtn = 
@@ -95,7 +110,7 @@ export default class Fan extends Component {
 
         <Grid >
           {jumboTronTxt}
-          {goButton}
+          {clock}
           {cancelBtn}
           {navbar}
         </Grid>
@@ -104,5 +119,57 @@ export default class Fan extends Component {
   }
 }
 
+//https://codepen.io/matthewvincent/pen/BKoYLm/
+const Clock = React.createClass({
 
+  getInitialState () {
+    return {
+      time: "00:00:00",
+      amPm: "am"
+    }
+  },
+  
+  componentDidMount () {
+    this.loadInterval = setInterval(
+      this.getTime, 1000
+    );
+  },
+  
+  getTime () {
+    const 
+      takeTwelve = n => n > 12 ?  n  - 12 : n,
+         addZero = n => n < 10 ? "0" +  n : n;
+       
+    setInterval(() => {
+      let d, h, m, s, t, amPm;
+      
+      d = new Date();
+      h = addZero(takeTwelve(d.getHours())); 
+      m = addZero(d.getMinutes()); 
+      s = addZero(d.getSeconds());
+    //  t = `${h}:${m}:${s}`;
+      t= `255`;
+      amPm = d.getHours() >= 12 ? "pm" : "am";
+
+      this.setState({
+        time: t, 
+        amPm: amPm
+      });
+      
+    }, 1000);
+  },
+  
+  render () {
+    return (
+          <div className="most-inner">
+            <span className={
+              this.state.time === "00:00:00" 
+                ? "time blink" 
+                : "time"} 
+            > {this.state.time}
+            </span>
+          </div>
+    );
+  }
+});
 

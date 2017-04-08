@@ -88,7 +88,7 @@ ipcMain.on('asynchronous-message', (event, fullPathName) => {
 app.on('ready', async () => {
   await installExtensions();
 
-
+  let urlToLoad;
   await settings.get('app').then(val => {
     var width;
     var height;
@@ -96,14 +96,22 @@ app.on('ready', async () => {
       case 'production':
         width=1400;
         height=1200;
+        urlToLoad=`file://${__dirname}/html/production/app.html`;
         break;
       case 'engineer':
         width=1900;
         height=1200;
+        urlToLoad=`file://${__dirname}/html/production/app.html`;
         break;
       case 'moto':
         width=1400;
         height=1200;
+        urlToLoad=`file://${__dirname}/html/moto/app.html`;
+        break;
+      case 'popper':
+        width=800;
+        height=600;
+        urlToLoad=`file://${__dirname}/html/popper/app.html`;
         break;
       default:
         break;
@@ -115,8 +123,8 @@ app.on('ready', async () => {
       height: height
     });
 
-
-    mainWindow.loadURL(`file://${__dirname}/html/production/app.html`);
+    mainWindow.loadURL(urlToLoad);
+//    mainWindow.loadURL(`file://${__dirname}/html/production/app.html`);
 
     mainWindow.webContents.on('did-finish-load', () => {
       mainWindow.show();

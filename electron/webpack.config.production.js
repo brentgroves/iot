@@ -47,15 +47,25 @@ export default validate(merge(baseConfig, {
           'css-loader',
           'less-loader'
         ]
-      },{
+      },
+      {
+        test: /\.(jpe?g|bmp)$/i,
+        loaders: [
+          'file?hash=sha512&digest=hex&name=[hash].[ext]',
+          'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+        ]
+      },
+/*      {
         test: /\.(jpe?g|png|bmp)$/i,
         loaders: [
           'file?hash=sha512&digest=hex&name=[hash].[ext]',
           'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
         ]
       },
+*/
+      { test: /\.(gif|png)$/, loader:"url-loader?mimetype=image/png"},
 
-      { test: /\.gif$/, loader:"url-loader?mimetype=image/png"},
+/*      { test: /\.gif$/, loader:"url-loader?mimetype=image/png"}, */
       {
         test: /\.woff(2)?(\?v=[0-9].[0-9].[0-9])?$/,
         loader:"url-loader?mimetype=application/font-woff"

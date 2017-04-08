@@ -1,8 +1,8 @@
 {
-  "name": "Ashley",
-  "productName": "Ashley",
+  "name": "IOThings",
+  "productName": "IOThings",
   "version": "1.0.0",
-  "description": "Busche Production Software",
+  "description": "Internet of Things",
   "main": "./main.js",
   "author": {
     "name": "Brent Groves",

@@ -7,6 +7,7 @@ import prodRoutes from './routes/production/routes';
 //import routes from './routes/production/routes';
 import engRoutes from './routes/engineer/routes';
 import motoRoutes from './routes/moto/routes';
+import popperRoutes from './routes/popper/routes';
 import configureStore from './store/configureStore';
 
 const settings = require('electron-settings');
@@ -90,6 +91,11 @@ settings.get('app').then(val => {
 	    break;
 	  case 'moto':
 	  	routes = motoRoutes;
+		store = configureStore();
+		history = syncHistoryWithStore(hashHistory, store);
+	    break;
+	  case 'popper':
+	  	routes = popperRoutes;
 		store = configureStore();
 		history = syncHistoryWithStore(hashHistory, store);
 	    break;

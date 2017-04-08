@@ -6,6 +6,7 @@ import createLogger from 'redux-logger';
 import productionReducer from '../reducers/production';
 import engineerReducer from '../reducers/engineer';
 import motoReducer from '../reducers/moto';
+import popperReducer from '../reducers/popper';
 
 var rootReducer;
 
@@ -25,6 +26,9 @@ settings.get('app').then(val => {
       break;
     case 'moto':
       rootReducer = motoReducer;
+      break;
+    case 'popper':
+      rootReducer = popperReducer;
       break;
     default:
       rootReducer = productionReducer;
