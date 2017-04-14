@@ -19,7 +19,6 @@ export default class Home extends Component {
       console.log(`Popper=${this.props.Popper.clickCount}`);
     }
 
- //   this.props.subscribe();
     this.state = {
      // loading: false
     };

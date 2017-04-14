@@ -1,9 +1,19 @@
 import Phaser from 'phaser'
+import * as ACTION from "../../../actions/popper/Const.js"
+import * as API from '../../../api/popper/api';
+
 export default class extends Phaser.Sprite {
 	constructor ({ game, x, y, asset,dispatch,getState}) {
 	super(game, x, y, asset)
 	this.dispatch=dispatch;
 	this.getState=getState;
+
+	this.dispatch((disp,getSt) => {
+	    var dispatch = disp;
+	    var getState = getSt;
+	    API.subscribe(dispatch,getState,'photocell',this.photocell.bind(this));
+	});
+
 	this.anchor.setTo(0.5)
 	//  Enables all kind of input actions on this image (click, etc)
 	this.inputEnabled = true;
@@ -19,21 +29,29 @@ export default class extends Phaser.Sprite {
     this.myText.anchor.setTo(0.5)
 
 	}
-	listener () {
+	photocell(message){
 	    if ('development'==process.env.NODE_ENV) {
-	    	var clickCount=this.getState().Popper.clickCount;
-	      	console.log(`Popper=${clickCount}`);
+	      	console.log(`message=${message}`);
 	    }
-	    /*
-	  dispatch((dispatch,getState) => {
-	    var disp = dispatch;
-	    var getSt = getState;
-	    SQLPRIMEDB.sql1(disp,getSt);
-	  });
-*/
-	    this.counter++;
-	    this.myText.text = "You clicked " + this.counter + " times!";
+	    this.myText.text = "Message is " + message;
 
+	}
+
+	listener () {
+  //  	clickCount++;
+  	    this.counter++;
+	    this.dispatch({ type:ACTION.SET_CLICKCOUNT, clickCount:this.counter});
+    	let clickCount=this.getState().Popper.clickCount;
+	    if ('development'==process.env.NODE_ENV) {
+	      	console.log(`counter=${this.counter}`);
+	      	console.log(`clickCount=${clickCount}`);
+	    }
+	    this.myText.text = "You clicked " + this.counter + " times!";
+		this.dispatch((disp,getSt) => {
+		    var dispatch = disp;
+		    var getState = getSt;
+		    API.fanStart(dispatch,getState);
+		});
 	}
 	update () {
 		this.angle += 1

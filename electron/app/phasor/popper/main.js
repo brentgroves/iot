@@ -9,12 +9,14 @@ import GameState from './states/Game'
 import config from './config'
 
 export default class Game extends Phaser.Game {
-  constructor () {
+  constructor (disp,getSt) {
     const docElement = document.documentElement
     const width = docElement.clientWidth > config.gameWidth ? config.gameWidth : docElement.clientWidth
     const height = docElement.clientHeight > config.gameHeight ? config.gameHeight : docElement.clientHeight
 
     super(width, height, Phaser.CANVAS, 'content', null)
+    this.dispatch = disp;
+    this.getState = getSt;
 
     this.state.add('Boot', BootState, false)
     this.state.add('Splash', SplashState, false)

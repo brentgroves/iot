@@ -20,28 +20,32 @@ var mqttClient = null;
 //window.game = new Game()
 
 export async function gameStart(disp,getSt) {
-    window.game = new Game({
-    	dispatch:disp,
-    	getState:getSt
-    });
+	var dispatch = disp;
+	var getState = getSt;
+    window.game = new Game(dispatch,getState);
     return;
 } // start
 
-export async function subscribe(disp,getSt) {
+export async function subscribe(disp,getSt,topic,callback) {
 //  var that = this;
 	var dispatch = disp;
 	var getState = getSt;
+	var subtop = topic;
+	var subcall = callback;
 
 	if(null==mqttClient){
 		mqttClient  = mqtt.connect({ host: 'localhost', port: 1883 }) //activemq
 		mqttClient.on('connect', function () {
-			mqttClient.subscribe('photocell');
-			console.log('connected');
+			mqttClient.subscribe(subtop);
+			if ('development'==process.env.NODE_ENV) {
+				console.log('connected');
+			}
 		});
 
 		mqttClient.on('message', function (topic, message) {
 		  // message is Buffer 
 		  console.log(message.toString());
+		  subcall(message.toString());
 		})
 	}
 
@@ -57,10 +61,14 @@ export async function fanStart(disp,getSt) {
 	var dispatch = disp;
 	var getState = getSt;
 
-	dispatch({ type:ACTION.SET_GO_BUTTON, goButton:PROGRESSBUTTON.LOADING });
-	mqttClient.publish('fan', 'fanon')
-	await MISC.sleep(5000);
-	dispatch({ type:ACTION.SET_GO_BUTTON, goButton:PROGRESSBUTTON.READY });
+//	dispatch({ type:ACTION.SET_GO_BUTTON, goButton:PROGRESSBUTTON.LOADING });
+	mqttClient.publish('fan', 'fanon');
+	if ('development'==process.env.NODE_ENV) {
+		console.log('publish fan->fanon');
+	}
+
+//	await MISC.sleep(5000);
+//	dispatch({ type:ACTION.SET_GO_BUTTON, goButton:PROGRESSBUTTON.READY });
 
 /*
 	mqttClient  = mqtt.connect({ host: 'localhost', port: 1883 }) //activemq

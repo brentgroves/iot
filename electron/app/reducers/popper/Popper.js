@@ -40,10 +40,9 @@ export default function reducer( state = initialState, action) {
 
     case ACTION.SET_CLICKCOUNT:
     {
-      var newData = update(state, {status: {$set: action.clickCount}});
+      var newData = update(state, {clickCount: {$set: action.clickCount}});
       return newData;
     }
-
 
     default:
       return state;

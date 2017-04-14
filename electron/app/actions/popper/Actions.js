@@ -11,6 +11,22 @@ export function gameStart() {
   };
 }
 
+export function fanStart() {
+ return (dispatch,getState) => {
+    var disp = dispatch;
+    var getSt = getState;
+    API.fanStart(disp,getSt);
+  };
+}
+
+export function subscribe(topic,callback) {
+ return (dispatch,getState) => {
+    var disp = dispatch;
+    var getSt = getState;
+    API.subscribe(disp,getSt,topic,callback);
+  };
+}
+
 export function fan() {
  return (dispatch,getState) => {
       dispatch(push('/Fan'));
@@ -50,19 +66,4 @@ export function setStatus(status) {
 
 
 
-export function fanStart() {
- return (dispatch,getState) => {
-    var disp = dispatch;
-    var getSt = getState;
-    API.fanStart(disp,getSt);
-  };
-}
-
-export function subscribe() {
- return (dispatch,getState) => {
-    var disp = dispatch;
-    var getSt = getState;
-    API.subscribe(disp,getSt);
-  };
-}
 

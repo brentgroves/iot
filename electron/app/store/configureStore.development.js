@@ -7,6 +7,8 @@ import productionReducer from '../reducers/production';
 import engineerReducer from '../reducers/engineer';
 import motoReducer from '../reducers/moto';
 import popperReducer from '../reducers/popper';
+// test extensions
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 var rootReducer;
 
@@ -51,16 +53,32 @@ const router = routerMiddleware(hashHistory);
 
 // If Redux DevTools Extension is installed use it, otherwise use Redux compose
 /* eslint-disable no-underscore-dangle */
+/*
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
     // Options: http://zalmoxisus.github.io/redux-devtools-extension/API/Arguments.html
+    //https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md
     actionCreators,
   }) :
   compose;
+*/
 /* eslint-enable no-underscore-dangle */
+/*
 const enhancer = composeEnhancers(
   applyMiddleware(thunk, router, logger)
 );
+
+*/
+/* STILL CANT GET DEVTOOLS WORKING WITH EITHER CONFIGURATION  */
+const composeEnhancers = composeWithDevTools({
+    // Options: http://zalmoxisus.github.io/redux-devtools-extension/API/Arguments.html
+    actionCreators,
+  });
+
+const enhancer = composeEnhancers(
+  applyMiddleware(thunk, router, logger)
+);
+
 
 export default function configureStore(initialState) {
   const store = createStore(rootReducer, initialState, enhancer);

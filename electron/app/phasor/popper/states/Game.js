@@ -2,13 +2,14 @@
 import Phaser from 'phaser'
 import Mushroom from '../sprites/Mushroom'
 //https://github.com/lean/phaser-es6-webpack
-export default class extends Phaser.State {
-  constructor ({ disp,getSt}){
+export default class GameState extends Phaser.State {
+/*
+  constructor (disp,getSt){
     super();
     this.dispatch = disp;
     this.getState = getSt;
   }
-
+*/
   init () {}
   preload () {}
 
@@ -21,14 +22,22 @@ export default class extends Phaser.State {
     banner.fill = '#77BFA3'
     banner.smoothed = false
     banner.anchor.setTo(0.5)
+    let dispatch = this.game.dispatch;
+    let getState = this.game.getState;
+    if ('development'==process.env.NODE_ENV) {
+        console.log(`dispatch=`);
+        console.dir(dispatch);
+        console.log(`getState=`);
+        console.dir(getState);
+    }
 
     this.mushroom = new Mushroom({
       game: this,
       x: this.world.centerX,
       y: this.world.centerY,
       asset: 'mushroom',
-      dispatch: this.dispatch,
-      getState: this.getState
+      dispatch: dispatch,
+      getState: getState
     })
 
     this.game.add.existing(this.mushroom)
