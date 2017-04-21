@@ -3,13 +3,21 @@ import { push } from 'react-router-redux';
 import * as API from '../../api/popper/api';
 
 
-export function gameStart() {
+export function gameStart(myCanvas) {
+  var myCanvasId = myCanvas;
  return (dispatch,getState) => {
     var disp = dispatch;
     var getSt = getState;
-    API.gameStart(disp,getSt);
+    API.gameStart(disp,getSt,myCanvasId);
   };
 }
+
+export function photocell() {
+ return (dispatch,getState) => {
+      dispatch(push('/Photocell'));
+  };
+}
+
 
 export function fanStart() {
  return (dispatch,getState) => {
@@ -27,9 +35,16 @@ export function subscribe(topic,callback) {
   };
 }
 
+
 export function fan() {
  return (dispatch,getState) => {
       dispatch(push('/Fan'));
+  };
+}
+
+export function home() {
+ return (dispatch,getState) => {
+      dispatch(push('/'));
   };
 }
 

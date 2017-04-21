@@ -19,10 +19,11 @@ var mqttClient = null;
 
 //window.game = new Game()
 
-export async function gameStart(disp,getSt) {
+export async function gameStart(disp,getSt,myCanvas) {
 	var dispatch = disp;
 	var getState = getSt;
-    window.game = new Game(dispatch,getState);
+	var myCanvasId = myCanvas;
+    window.game = new Game(dispatch,getState,myCanvasId);
     return;
 } // start
 

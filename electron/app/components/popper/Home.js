@@ -38,7 +38,23 @@ export default class Home extends Component {
             <br/>
           </Jumbotron>
         </Col>
-      </Row>
+      </Row>;
+  var myCanvasId="myCanvasId";
+  var myCanvas;
+  myCanvas =
+    <Row >
+      <Col xs={12}>
+        <div id="myCanvasId">Hello</div>
+      </Col>
+    </Row>;
+  var fusionChart;
+  fusionChart =
+    <Row >
+      <Col xs={12}>
+        <div id='chart-container'>fusionChart</div>
+      </Col>
+    </Row>;
+
   var gridMenu;
   gridMenu =
   <div>
@@ -54,8 +70,8 @@ export default class Home extends Component {
         <table className="tg">
         <tbody>
           <tr>
-              <td className="btnPrimary" onClick={()=>{this.props.gameStart();}}>OSEPP Fan</td>
-              <td className="btnSuccess"onClick={()=>{this.props.fan();}}>Photocell</td>
+              <td className="btnPrimary" onClick={()=>{this.props.gameStart(myCanvasId);}}>OSEPP Fan</td>
+              <td className="btnSuccess"onClick={()=>{this.props.photocell();}}>Photocell</td>
               <td className="btnWarning" onClick={()=>{this.props.fan();}}>Reports</td>
           </tr>
           </tbody>
@@ -65,7 +81,6 @@ export default class Home extends Component {
     </Row>
 
   </div>;
-
   var navbar;
   navbar=
   <Navbar inverse  fixedBottom>
@@ -77,8 +92,8 @@ export default class Home extends Component {
     </NavbarHeader>
     <NavbarCollapse>
       <Nav>
-        <LinkContainer to="/Fan">
-          <NavItem eventKey={1}>Fan</NavItem>
+        <LinkContainer to="/Photocell">
+          <NavItem eventKey={1}>Photocell</NavItem>
         </LinkContainer>      
       </Nav>
     </NavbarCollapse>
@@ -87,8 +102,9 @@ export default class Home extends Component {
     return (
       <div>
         <Grid>
-        {jumboTronTxt}
+        {fusionChart}
         {gridMenu}
+        {myCanvas}
         </Grid>
         {navbar}
       </div>
