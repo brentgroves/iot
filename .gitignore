@@ -30,3 +30,7 @@ coverage
 
 # App packaged
 
+#odt lock
+.~lock*
+
+

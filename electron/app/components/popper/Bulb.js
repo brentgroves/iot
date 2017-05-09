@@ -1,11 +1,15 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes }  from 'react';
 import ReactDOM from 'react-dom';
-import ReactFC from 'react-fusioncharts';
-import FusionCharts from 'fusioncharts';
+import fusioncharts from 'fusioncharts';
 import charts from 'fusioncharts/fusioncharts.charts';
-import oceanIgnore from'fusioncharts/themes/fusioncharts.theme.ocean';
-// Pass fusioncharts as a dependency of charts
-charts(FusionCharts)
+import widgets from 'fusioncharts/fusioncharts.widgets';
+import theme from 'fusioncharts/themes/fusioncharts.theme.fint';
+import ReactFC from 'react-fusioncharts';
+
+charts(FusionCharts);
+theme(FusionCharts);
+widgets(FusionCharts);
+
 
 export default class Bulb extends Component {
 
@@ -16,58 +20,60 @@ export default class Bulb extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      myDataSource: {
-        chart: {
-            caption: "Harry's SuperMart",
-            subCaption: "Top 5 stores in last month by revenue",
-            numberPrefix: "$",
-            theme: "ocean"
+      dataSource: {
+        "chart": {
+            "caption": "Customer Satisfaction Score",
+            "subcaption": "Last week",
+            "lowerLimit": "0",
+            "upperLimit": "100",
+            "lowerLimitDisplay": "Bad",
+            "upperLimitDisplay": "Good",
+            "showValue": "1",
+            "valueBelowPivot": "1",
+            "theme": "fint"
         },
-        data:[
-          {
-              label: "Bakersfield Central",
-              value: "880000"
-          },
-          {
-              label: "Garden Groove harbour",
-              value: "730000"
-          },
-          {
-              label: "Los Angeles Topanga",
-              value: "590000"
-          },
-          {
-              label: "Compton-Rancho Dom",
-              value: "520000"
-          },
-          {
-              label: "Daly City Serramonte",
-              value: "330000"
-          }
-        ]
+        "colorRange": {
+            "color": [
+                {
+                    "minValue": "0",
+                    "maxValue": "50",
+                    "code": "#e44a00"
+                },
+                {
+                    "minValue": "50",
+                    "maxValue": "75",
+                    "code": "#f8bd19"
+                },
+                {
+                    "minValue": "75",
+                    "maxValue": "100",
+                    "code": "#6baa01"
+                }
+            ]
+        },
+        "dials": {
+            "dial": [{
+                "value": "67"
+            }]
+        }
       }
     };
   }
-
   render() {
-  var fusionChart;
-  var myDataSource = this.state.myDataSource;
-  var revenueChartConfigs = {
-    id: "revenue-chart",
-      renderAt: "chart-container",
-    type: "column2d",
-    width:600,
-      height: 400,
-      dataFormat: "json",
-      dataSource: myDataSource
-  };
+    var myDataSource = this.state.dataSource;
+    var chartConfigs = {
+        type: "angulargauge",
+        className: "fc-angular", // ReactJS attribute-name for DOM classes
+        dataFormat: "JSON",
+        dataSource: myDataSource
+    };
 
-  fusionChart =
-    <ReactFC {...revenueChartConfigs} />
-
+    if ('development'==process.env.NODE_ENV) {
+    //    console.log('publish fan->fanon');
+    }
 
     return (
-      {fusionChart}
+      <ReactFC {...chartConfigs} />
     );
   }
 }
