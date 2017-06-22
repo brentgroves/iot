@@ -69,7 +69,7 @@ void loop() {
   // publish a message roughly every second.
   if (millis() - lastMillis > 30000) {
     lastMillis = millis();
-    client.publish("/fan", "on");
+  //  client.publish("/fan", "on");
   }
 
 

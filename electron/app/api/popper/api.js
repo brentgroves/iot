@@ -35,7 +35,15 @@ export async function subscribe(disp,getSt,topic,callback) {
 	var subcall = callback;
 
 	if(null==mqttClient){
-		mqttClient  = mqtt.connect({ host: 'localhost', port: 1883 }) //activemq
+
+		mqttClient = mqtt.connect('mqtt://c4125e88:a68051977e87f879@broker.shiftr.io', {
+		  clientId: 'javascript'
+		});
+/*		mqttClient = mqtt.connect('mqtt://try:try@broker.shiftr.io', {
+		  clientId: 'javascript'
+		});
+*/
+	//	mqttClient  = mqtt.connect({ host: 'localhost', port: 1883 }) //activemq
 		mqttClient.on('connect', function () {
 			mqttClient.subscribe(subtop);
 			if ('development'==process.env.NODE_ENV) {

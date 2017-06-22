@@ -33,6 +33,8 @@ int ledPin = 11;      // select the pin for the LED
 int photocellValue = 0;  // variable to store the value coming from the photocell val
 int lastMillis = 0;
 
+
+
 EthernetClient net;
 MQTTClient client;
 
@@ -87,10 +89,13 @@ void loop() {
   Serial.println( photocellValue);
   analogWrite(ledPin, ledbrightness);  
 
+  char photocellBuffer[10];
+  sprintf(photocellBuffer, "%d", photocellValue);
+
   // publish a message roughly every second.
   if (millis() - lastMillis > 30000) {
     lastMillis = millis();
-    client.publish("/photocell", "on");
+    client.publish("/photocell", photocellBuffer);
   }
 
 

@@ -70,7 +70,7 @@ export default class Home extends Component {
         <table className="tg">
         <tbody>
           <tr>
-              <td className="btnPrimary" onClick={()=>{this.props.gameStart(myCanvasId);}}>OSEPP Fan</td>
+              <td className="btnPrimary" onClick={()=>{this.props.gameStart(myCanvasId);}}>Fan</td>
               <td className="btnSuccess"onClick={()=>{this.props.photocell();}}>Photocell</td>
               <td className="btnWarning" onClick={()=>{this.props.fan();}}>Reports</td>
           </tr>
