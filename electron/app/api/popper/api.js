@@ -1,30 +1,25 @@
-
-import { remote,ipcRenderer } from 'electron';
-
-
-
-import * as ACTION from "../../actions/moto/Const.js"
-import * as PROGRESSBUTTON from "../../const/moto/ProgressButtonConst.js"
-import * as MISC from "../../const/moto/Misc.js"
-import mqtt     from 'mqtt';
+import mqtt from 'mqtt';
+import { remote, ipcRenderer } from 'electron';
+import * as ACTION from '../../actions/moto/Const';
+import * as PROGRESSBUTTON from '../../const/moto/ProgressButtonConst';
+import * as MISC from '../../const/moto/Misc';
 import Game from '../../phasor/popper/main'
 
-//import * as hashLeftOuterJoin from "lodash-joins/lib/hash/hashLeftOuterJoin.js"
-var _ = require('lodash');
-var joins = require('lodash-joins');
-var sorty    = require('sorty')
-var fs = require('fs');
-var mqttClient = null;
+// import * as hashLeftOuterJoin from "lodash-joins/lib/hash/hashLeftOuterJoin.js"
+let _ = require('lodash');
+let joins = require('lodash-joins');
+let sorty = require('sorty')
+let fs = require('fs');
+let mqttClient = null;
 
 
-//window.game = new Game()
+// window.game = new Game()
 
-export async function gameStart(disp,getSt,myCanvas) {
-	var dispatch = disp;
-	var getState = getSt;
-	var myCanvasId = myCanvas;
-    window.game = new Game(dispatch,getState,myCanvasId);
-    return;
+export async function gameStart(disp, getSt, myCanvas) {
+  let dispatch = disp;
+  let getState = getSt;
+  let myCanvasId = myCanvas;
+  window.game = new Game(dispatch, getState, myCanvasId);
 } // start
 
 export async function subscribe(disp,getSt,topic,callback) {
@@ -52,7 +47,7 @@ export async function subscribe(disp,getSt,topic,callback) {
 		});
 
 		mqttClient.on('message', function (topic, message) {
-		  // message is Buffer 
+		  // message is Buffer
 		  console.log(message.toString());
 		  subcall(message.toString());
 		})
@@ -102,6 +97,3 @@ export async function fanStart(disp,getSt) {
 	return;
 
 } // start
-
-
-

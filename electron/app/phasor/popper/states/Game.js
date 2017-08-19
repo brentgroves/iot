@@ -24,15 +24,21 @@ export default class GameState extends Phaser.State {
     banner.anchor.setTo(0.5)
     let dispatch = this.game.dispatch;
     let getState = this.game.getState;
+    let testGame = this.game;
+
     if ('development'==process.env.NODE_ENV) {
         console.log(`dispatch=`);
         console.dir(dispatch);
         console.log(`getState=`);
         console.dir(getState);
+        console.log(`testGame=`);
+        console.dir(testGame);
+        console.log(`this=`);
+        console.dir(this);
     }
 
     this.mushroom = new Mushroom({
-      game: this,
+      game: this.game,
       x: this.world.centerX,
       y: this.world.centerY,
       asset: 'mushroom',

@@ -3,42 +3,39 @@ import thunk from 'redux-thunk';
 import { hashHistory } from 'react-router';
 import { routerMiddleware, push } from 'react-router-redux';
 import createLogger from 'redux-logger';
+import { composeWithDevTools } from 'redux-devtools-extension';
+
 import productionReducer from '../reducers/production';
 import engineerReducer from '../reducers/engineer';
 import motoReducer from '../reducers/moto';
 import popperReducer from '../reducers/popper';
 // test extensions
-import { composeWithDevTools } from 'redux-devtools-extension';
 
-var rootReducer;
+let rootReducer;
 
-const settings = require('electron-settings');
+const settings = require('electron').remote.require('electron-settings');
 
-settings.defaults({
-  app: 'production'
-});
+const val = settings.get('app');
+console.log(`setting.app= ${val}`);
 
-settings.get('app').then(val => {
-  switch (val) {
-    case 'production':
-      rootReducer = productionReducer;
-      break;
-    case 'engineer':
-      rootReducer = engineerReducer;
-      break;
-    case 'moto':
-      rootReducer = motoReducer;
-      break;
-    case 'popper':
-      rootReducer = popperReducer;
-      break;
-    default:
-      rootReducer = productionReducer;
-      break;
-  }
+switch (val) {
+  case 'production':
+    rootReducer = productionReducer;
+    break;
+  case 'engineer':
+    rootReducer = engineerReducer;
+    break;
+  case 'moto':
+    rootReducer = motoReducer;
+    break;
+  case 'popper':
+    rootReducer = popperReducer;
+    break;
+  default:
+    rootReducer = productionReducer;
+    break;
+}
 
-    console.log(val);
-});
 
 const actionCreators = {
   push,
@@ -72,8 +69,8 @@ const enhancer = composeEnhancers(
 /* STILL CANT GET DEVTOOLS WORKING WITH EITHER CONFIGURATION  */
 const composeEnhancers = composeWithDevTools({
     // Options: http://zalmoxisus.github.io/redux-devtools-extension/API/Arguments.html
-    actionCreators,
-  });
+  actionCreators,
+});
 
 const enhancer = composeEnhancers(
   applyMiddleware(thunk, router, logger)
