@@ -13,11 +13,11 @@ let temp=app.getPath('temp');
 
 const debug=true;
 
-
+/*
 settings.defaults({
   app: 'production'
 });
-
+*/
 
 
 if (process.env.NODE_ENV === 'production') {
@@ -68,7 +68,7 @@ ipcMain.on('asynchronous-message', (event, fullPathName) => {
       webSecurity: false,
     },
   });
-  let pdfURL = 'file://' + fullPathName;
+  const pdfURL = 'file://' + fullPathName;
 //    let pdfURL = 'file://' + app.getPath('temp') + '/myfile.pdf';
   let param = qs.stringify({file: pdfURL});
   if ('development'==process.env.NODE_ENV) {
@@ -82,79 +82,73 @@ ipcMain.on('asynchronous-message', (event, fullPathName) => {
 
   pdfWindow.loadURL('file://' + __dirname + '/pdfjs/web/viewer.html?' + param);
   //event.sender.send('asynchronous-reply', 'pong')
-  
+
 });
 
 app.on('ready', async () => {
+  let width;
+  let height;
   await installExtensions();
-
   let urlToLoad;
-  await settings.get('app').then(val => {
-    var width;
-    var height;
-    switch (val) {
-      case 'production':
-        width=1400;
-        height=1200;
-        urlToLoad=`file://${__dirname}/html/production/app.html`;
-        break;
-      case 'engineer':
-        width=1900;
-        height=1200;
-        urlToLoad=`file://${__dirname}/html/production/app.html`;
-        break;
-      case 'moto':
-        width=1400;
-        height=1200;
-        urlToLoad=`file://${__dirname}/html/moto/app.html`;
-        break;
-      case 'popper':
-        width=800;
-        height=600;
-        urlToLoad=`file://${__dirname}/html/popper/app.html`;
-        break;
-      default:
-        break;
-    }
+  const val = settings.get('app');
+  console.log(`setting.app= ${val}`);
+  switch (val) {
+    case 'production':
+      width = 1400;
+      height = 1200;
+      urlToLoad = `file://${__dirname}/html/production/app.html`;
+      break;
+    case 'engineer':
+      width = 1900;
+      height = 1200;
+      urlToLoad = `file://${__dirname}/html/production/app.html`;
+      break;
+    case 'moto':
+      width = 1400;
+      height = 1200;
+      urlToLoad = `file://${__dirname}/html/moto/app.html`;
+      break;
+    case 'popper':
+      width = 800;
+      height = 600;
+      urlToLoad = `file://${__dirname}/html/popper/app.html`;
+      break;
+    default:
+      break;
+  }
 
-    mainWindow = new BrowserWindow({
-      show: false,
-      width: width,
-      height: height
-    });
-
-    mainWindow.loadURL(urlToLoad);
-//    mainWindow.loadURL(`file://${__dirname}/html/production/app.html`);
-
-    mainWindow.webContents.on('did-finish-load', () => {
-      mainWindow.show();
-      mainWindow.focus();
-    });
-
-    mainWindow.on('closed', () => {
-      mainWindow = null;
-    });
-
-    if ((true==debug)||(process.env.NODE_ENV === 'development')) {
-      mainWindow.openDevTools();
-      mainWindow.webContents.on('context-menu', (e, props) => {
-        const { x, y } = props;
-
-        Menu.buildFromTemplate([{
-          label: 'Inspect element',
-          click() {
-            mainWindow.inspectElement(x, y);
-          }
-        }]).popup(mainWindow);
-      });
-    }
-
-    menu = Menu.buildFromTemplate(template);
-    //    mainWindow.setMenu(menu);
-    mainWindow.setMenu(null);
-
+  mainWindow = new BrowserWindow({
+    show: false,
+    width,
+    height
   });
 
+  mainWindow.loadURL(urlToLoad);
+//    mainWindow.loadURL(`file://${__dirname}/html/production/app.html`);
 
+  mainWindow.webContents.on('did-finish-load', () => {
+    mainWindow.show();
+    mainWindow.focus();
+  });
 
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+  });
+
+  if ((true === debug) || (process.env.NODE_ENV === 'development')) {
+    mainWindow.openDevTools();
+    mainWindow.webContents.on('context-menu', (e, props) => {
+      const { x, y } = props;
+
+      Menu.buildFromTemplate([{
+        label: 'Inspect element',
+        click() {
+          mainWindow.inspectElement(x, y);
+        }
+      }]).popup(mainWindow);
+    });
+  }
+  menu = Menu.buildFromTemplate(template);
+  //    mainWindow.setMenu(menu);
+  mainWindow.setMenu(null);
 });
