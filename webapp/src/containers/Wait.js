@@ -22,7 +22,6 @@ class Wait extends Component {
       let detail = document.getElementById('detail')
       let childNodes = detail.childNodes
       if (childNodes.length !== 0) {
-        thisChild.props.setRptStep(2)
       }
     }, 3000)
   }

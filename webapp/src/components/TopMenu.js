@@ -11,8 +11,7 @@ class TopMenu extends Component {
 
     this.state = {
       activeItem: 'sidebar',
-      sbActiveItem: 'tcsbyplant',
-      ddActiveItem: 'production'
+      ddActiveItem: 'production',
 
     }
 
@@ -20,8 +19,8 @@ class TopMenu extends Component {
 
   render() {
 
-    const { activeItem, sbActiveItem, ddActiveItem } = this.state
-    const {childProps} = this.props;
+    const { activeItem, ddActiveItem } = this.state
+    const {childProps,history} = this.props;
     return (
         <Menu fluid inverted attached='top'>
           {childProps.isAuthenticated ?
@@ -30,7 +29,7 @@ class TopMenu extends Component {
                 name='toggleSidebar'
                 active={activeItem === 'toggleSidebar'}
                 onClick={(e, { name })=> {
-                  childProps.setSidebarVisible(!this.props.sidebarVisible )
+                  childProps.setSidebarVisible(!childProps.sidebarVisible )
                 }}>
                 <Icon name='sidebar'/>
               </Menu.Item>,
@@ -42,7 +41,7 @@ class TopMenu extends Component {
                     active={ddActiveItem === 'schedule'}
                     onClick={(e, { name }) => {
                       //  e.stopPropagation()
-                      this.setState({ ddActiveItem: name })
+                      childProps.setState({ ddActiveItem: name })
                       childProps.setSidebarVisible(true)
                     }}
                   >
@@ -53,7 +52,7 @@ class TopMenu extends Component {
                     active={ddActiveItem === 'purchasing'}
                     onClick={(e, { name }) => {
                       //  e.stopPropagation()
-                      this.setState({ ddActiveItem: name })
+                      childProps.setState({ ddActiveItem: name })
                       childProps.setSidebarVisible(true)
                     }}
                   >
@@ -65,7 +64,7 @@ class TopMenu extends Component {
                 name='accuracy'
                 active={activeItem === 'accuracy'}
                 onClick={(e, { name })=> {
-                  this.setState({ activeItem: name })
+                  childProps.setState({ activeItem: name })
                   childProps.setSidebarVisible(false)
 
                 }}>
@@ -77,7 +76,7 @@ class TopMenu extends Component {
                   name='logout'
                   active={activeItem === 'logout'}
                   onClick={(e, { name })=> {
-                    this.setState({ activeItem: name })
+                    childProps.setState({ activeItem: name })
                      childProps.setSidebarVisible(false)
                     childProps.handleLogout()
                   }}>
@@ -92,8 +91,8 @@ class TopMenu extends Component {
                 name='signup'
                 active={activeItem === 'signup'}
                 onClick={(e, { name }) => {
-                  this.setState({ activeItem: name })
-                  childProps.history.push('/signup')
+                  childProps.setState({ activeItem: name })
+                  history.push('/signup')
                 }} >
                 <Icon name='add user'/>Signup
               </Menu.Item>,
@@ -101,8 +100,8 @@ class TopMenu extends Component {
                 name='login'
                 active={activeItem === 'login'}
                 onClick={(e, { name }) => {
-                  this.setState({ activeItem: name })
-                  childProps.history.push('/login')
+                  childProps.setState({ activeItem: name })
+                  history.push('/login')
                 }} >
                 <Icon name='mail forward'/>Login
               </Menu.Item>
