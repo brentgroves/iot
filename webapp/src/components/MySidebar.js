@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Message, Dropdown, Sidebar, Segment, Button, Image, Header, Accordion, Icon, List, Menu } from 'semantic-ui-react'
+import { Sidebar, Segment, Icon, Menu } from 'semantic-ui-react'
 
 // import "./index.css";
 import '../App.css'
@@ -10,17 +10,14 @@ class MySidebar extends Component {
     super(props)
 
     this.state = {
-      sbActiveItem: 'tcsbyplant',
-
     }
 
   }
 
   render() {
 
-
-    const {sbActiveItem} = this.state;
-    const {childProps,history} = this.props;
+    const {history,childProps} = this.props;
+    const {dropdownActiveItem,sidebarActiveItem,setSidebarActiveItem,sidebarVisible,setSidebarVisible} = this.props.childProps;
 
     let divStyle = {
       width: '100%',
@@ -30,27 +27,27 @@ class MySidebar extends Component {
     }    
     return (
       <div style={divStyle}>
-<Sidebar childProps={childProps} />
-        {ddActiveItem === 'production' ?
+<Sidebar  />
+        {dropdownActiveItem === 'production' ?
           <Sidebar.Pushable as={Segment} attached='bottom'>
-            <Sidebar as={Menu} animation='push' width='thin' visible={childProps.sidebarVisible} icon='labeled' vertical inverted>
+            <Sidebar as={Menu} animation='push' width='thin' visible={sidebarVisible} icon='labeled' vertical inverted>
               <Menu.Item
                 name='tcsbyplant'
-                active={activeItem === 'tcsbyplant'}
+                active={sidebarActiveItem === 'tcsbyplant'}
                 onClick={(e, { name }) => {
-                  childProps.setState({ sbActiveItem: name })
+                  setSidebarActiveItem(name)
                   history.push('/tcsbyplant')
-                  childProps.setSidebarVisible(false)
+                  setSidebarVisible(false)
                 }}>
                 <Icon name='html5'/>ToolCost
               </Menu.Item>
               <Menu.Item
                 name='tcsbyplantXLS'
-                active={activeItem === 'tcsbyplantXLS'}
+                active={sidebarActiveItem === 'tcsbyplantXLS'}
                 onClick={(e, { name }) => {
-                  this.setState({ sbActiveItem: name })
+                  setSidebarActiveItem(name)
                   history.push('/tcsbyplant')
-                  childProps.setSidebarVisible(false)
+                  setSidebarVisible(false)
                 }}>
                 <Icon name='file excel outline'/>Excel
               </Menu.Item>
@@ -62,23 +59,22 @@ class MySidebar extends Component {
           </Sidebar.Pushable>
           :
           <Sidebar.Pushable as={Segment} style={divStyle} attached='bottom'>
-            <Sidebar as={Menu} style={divStyle} animation='push' width='thin' visible={childProps.sidebarVisible} icon='labeled' vertical inverted>
+            <Sidebar as={Menu} animation='push' width='thin' visible={sidebarVisible} icon='labeled' vertical inverted>
               <Menu.Item
                 name='tcsbyplantXLS'
-                active={activeItem === 'tcsbyplantXLS'}
+                active={sidebarActiveItem === 'tcsbyplantXLS'}
                 onClick={(e, { name }) => {
-                  this.setState({ sbActiveItem: name })
+                  setSidebarActiveItem(name)
                   history.push('/tcsbyplant')
-                  childProps.setSidebarVisible(false)
-
+                  setSidebarVisible(false)
                 }}>
                 <Icon name='file excel outline'/>Excel
               </Menu.Item>
               <Menu.Item
                 name='tcsbyplant'
-                active={activeItem === 'tcsbyplant'}
+                active={sidebarActiveItem === 'tcsbyplant'}
                 onClick={(e, { name }) => {
-                  this.setState({ sbActiveItem: name })
+                  setSidebarActiveItem(name)
                   history.push('/tcsbyplant')
                   childProps.setSidebarVisible(false)
                 }}>
@@ -86,7 +82,7 @@ class MySidebar extends Component {
               </Menu.Item>
 
             </Sidebar>
-            <Sidebar.Pusher dimmed={childProps.sidebarVisible} style={divStyle} >
+            <Sidebar.Pusher dimmed={sidebarVisible} style={divStyle} >
               <Segment style={divStyle} basic >
                 <Routes childProps={childProps} />
                 <div id='detail' style={divStyle} className='container fill mycontainer' />

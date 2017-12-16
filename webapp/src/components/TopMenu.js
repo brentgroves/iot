@@ -1,17 +1,14 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Message, Dropdown, Sidebar, Segment, Button, Image, Header, Accordion, Icon, List, Menu } from 'semantic-ui-react'
+import {Dropdown, Icon, Menu } from 'semantic-ui-react'
 
 // import "./index.css";
 import '../App.css'
-import Routes from '../Routes'
 class TopMenu extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      activeItem: 'sidebar',
-      ddActiveItem: 'production',
 
     }
 
@@ -19,41 +16,52 @@ class TopMenu extends Component {
 
   render() {
 
-    const { activeItem, ddActiveItem } = this.state
-    const {childProps,history} = this.props;
+    const { isAuthenticated,sidebarVisible,setSidebarVisible,topmenuActiveItem, dropdownActiveItem,
+            setDropdownActiveItem,setTopmenuActiveItem,handleLogout } = this.props.childProps
+    const {history} = this.props;
     return (
         <Menu fluid inverted attached='top'>
-          {childProps.isAuthenticated ?
+          {isAuthenticated ?
             [
               <Menu.Item
+                key='1'
                 name='toggleSidebar'
-                active={activeItem === 'toggleSidebar'}
+                active={topmenuActiveItem === 'toggleSidebar'}
                 onClick={(e, { name })=> {
-                  childProps.setSidebarVisible(!childProps.sidebarVisible )
+                  setTopmenuActiveItem(name)
+                  setSidebarVisible(!sidebarVisible )
                 }}>
                 <Icon name='sidebar'/>
               </Menu.Item>,
               <Dropdown
-                icon='folder' item >
+                key='2'              
+                name='dropdown'
+                icon='folder' 
+                item 
+                onClick={(e, { name }) => {
+                  setTopmenuActiveItem(name)
+                }}
+
+                >
                 <Dropdown.Menu>
                   <Dropdown.Item
+                    key='3'
                     name='production'
-                    active={ddActiveItem === 'schedule'}
+                    active={dropdownActiveItem === 'production'}
                     onClick={(e, { name }) => {
-                      //  e.stopPropagation()
-                      childProps.setState({ ddActiveItem: name })
-                      childProps.setSidebarVisible(true)
+                      setDropdownActiveItem(name)
+                      setSidebarVisible(true)
                     }}
                   >
                     <span id='ddProduction' className='text'>Production</span>
                   </Dropdown.Item>
                   <Dropdown.Item
+                    key='4'
                     name='purchasing'
-                    active={ddActiveItem === 'purchasing'}
+                    active={dropdownActiveItem === 'purchasing'}
                     onClick={(e, { name }) => {
-                      //  e.stopPropagation()
-                      childProps.setState({ ddActiveItem: name })
-                      childProps.setSidebarVisible(true)
+                      setDropdownActiveItem(name)
+                      setSidebarVisible(true)
                     }}
                   >
                     <span id='ddPurchasing' className='text'>Purchasing</span>
@@ -61,24 +69,26 @@ class TopMenu extends Component {
                 </Dropdown.Menu>
               </Dropdown>,
               <Menu.Item
+                key='5'
                 name='accuracy'
-                active={activeItem === 'accuracy'}
+                active={topmenuActiveItem === 'accuracy'}
                 onClick={(e, { name })=> {
-                  childProps.setState({ activeItem: name })
-                  childProps.setSidebarVisible(false)
+                  setTopmenuActiveItem(name)
+                  setSidebarVisible(false)
 
                 }}>
                 <Icon name='heartbeat'/>
                 <span className='text'>Accuracy</span>
               </Menu.Item>,
-              <Menu.Menu position='right'>
+              <Menu.Menu key='5.5' position='right'>
                 <Menu.Item
+                  key='6'
                   name='logout'
-                  active={activeItem === 'logout'}
+                  active={topmenuActiveItem === 'logout'}
                   onClick={(e, { name })=> {
-                    childProps.setState({ activeItem: name })
-                     childProps.setSidebarVisible(false)
-                    childProps.handleLogout()
+                    setTopmenuActiveItem(name)
+                    setSidebarVisible(false)
+                    handleLogout()
                   }}>
                   <Icon name='block layout'/>
                   <span className='text'>Logout&nbsp;&nbsp;&nbsp;</span>
@@ -88,19 +98,23 @@ class TopMenu extends Component {
             :
             [
               <Menu.Item
+                key='7'
                 name='signup'
-                active={activeItem === 'signup'}
+                active={topmenuActiveItem === 'signup'}
                 onClick={(e, { name }) => {
-                  childProps.setState({ activeItem: name })
+                  setTopmenuActiveItem(name)
+                  setSidebarVisible(false)
                   history.push('/signup')
                 }} >
                 <Icon name='add user'/>Signup
               </Menu.Item>,
               <Menu.Item
+                key='8'
                 name='login'
-                active={activeItem === 'login'}
+                active={topmenuActiveItem === 'login'}
                 onClick={(e, { name }) => {
-                  childProps.setState({ activeItem: name })
+                  setTopmenuActiveItem(name)
+                  setSidebarVisible(false)
                   history.push('/login')
                 }} >
                 <Icon name='mail forward'/>Login

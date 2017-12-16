@@ -1,6 +1,6 @@
 import React from 'react'
-import { Link, withRouter } from 'react-router-dom'
-import { Button, Header, Icon, Modal } from 'semantic-ui-react'
+import { withRouter } from 'react-router-dom'
+import { Button, Header, Modal } from 'semantic-ui-react'
 
 const ErrorModal = () => (
   <Modal trigger={<Button>Show Modal</Button>}>

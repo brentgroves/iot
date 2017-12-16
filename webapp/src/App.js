@@ -1,13 +1,10 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-import { Link, withRouter } from 'react-router-dom'
-import Routes from './Routes'
-import { authUser, signOutUser } from './libs/awsLib'
+import { withRouter } from 'react-router-dom'
+import { signOutUser } from './libs/awsLib'
 import TopMenu from './components/TopMenu'
 import MySidebar from './components/MySidebar'
 
 // import './App.css'
-import { Message, Dropdown, Sidebar, Segment, Button, Image, Header, Accordion, Icon, List, Menu } from 'semantic-ui-react'
 
 
 class App extends Component {
@@ -20,19 +17,40 @@ class App extends Component {
       rptStep: 1,
       sidebarVisible: false,
       dtStart: '12-6-2017 23:15:10',
-      
+      sidebarActiveItem: '',
+      topmenuActiveItem: '',
+      dropdownActiveItem: '',
+     
     }
 
     // This binding is necessary to make `this` work in the callback
     this.handleLogout = this.handleLogout.bind(this)
     // This binding is necessary to make `this` work in the callback
     this.setSidebarVisible = this.setSidebarVisible.bind(this)
+    // This binding is necessary to make `this` work in the callback
+    this.setSidebarActiveItem = this.setSidebarActiveItem.bind(this)
+    // This binding is necessary to make `this` work in the callback
+    this.setDropdownActiveItem = this.setDropdownActiveItem.bind(this)
+    // This binding is necessary to make `this` work in the callback
+    this.setTopmenuActiveItem = this.setTopmenuActiveItem.bind(this)
+
   }
 
 
   async componentDidMount() {
 
   }
+
+
+setSidebarActiveItem = item => {
+  this.setState({ sidebarActiveItem: item })
+}
+setDropdownActiveItem = item => {
+  this.setState({ dropdownActiveItem: item })
+}
+setTopmenuActiveItem = item => {
+  this.setState({ topmenuActiveItem: item })
+}
 
 
 
@@ -65,8 +83,12 @@ class App extends Component {
       handleLogout: this.handleLogout,
       setSidebarVisible: this.setSidebarVisible,
       sidebarVisible:this.state.sidebarVisible,
-
-
+      topmenuActiveItem: this.state.topmenuActiveItem,
+      dropdownActiveItem: this.state.dropdownActiveItem,
+      sidebarActiveItem:this.state.sidebarActiveItem,
+      setSidebarActiveItem:this.setSidebarActiveItem,
+      setDropdownActiveItem:this.setDropdownActiveItem,
+      setTopmenuActiveItem:this.setTopmenuActiveItem
     }
 
 

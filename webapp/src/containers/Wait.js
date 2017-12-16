@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import './Wait.css'
-import { Loader, Dimmer, Grid, Container, Segment, Rail, Menu, Header, Icon } from 'semantic-ui-react'
-import LoaderButton from '../components/LoaderButton'
+import { Loader, Dimmer, Grid } from 'semantic-ui-react'
 
 class Wait extends Component {
   constructor(props) {
@@ -16,7 +15,6 @@ class Wait extends Component {
 
 
   async componentDidMount() {
-    var thisChild = this;
     setTimeout(function () {
       //        self.props.setRptStep(2); 
       let detail = document.getElementById('detail')
@@ -30,20 +28,7 @@ class Wait extends Component {
     return 'success'
   }
   render() {
-    let iconStyle = {
-      width: '50%',
-      height: '65%',
-      padding: '150px'
-      //      width: '100%'
-    }
 
-
-    let centerStyle = {
-      textwidth: '100%',
-      height: '100%'
-
-      //      width: '100%'
-    }
 
     let divStyle = {
       width: '100%',
@@ -65,8 +50,7 @@ class Wait extends Component {
 
 
     return (
-      [
-        <Grid basic style={divStyle}>
+        <Grid  style={divStyle}>
           <Grid.Column width={8} style={divStyle} >
             <Dimmer style={divStyle} active >
               <Loader style={divStyle}>Loading</Loader>
@@ -82,7 +66,6 @@ class Wait extends Component {
 
 
         </Grid>
-      ]
     )
   }
 }

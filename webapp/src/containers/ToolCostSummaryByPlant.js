@@ -1,12 +1,11 @@
 import React from 'react'
-import { Link, withRouter } from 'react-router-dom'
-import {  Grid,Container, Segment, Rail, Menu, Header, Icon } from 'semantic-ui-react'
-import { Button, Form, Message } from 'semantic-ui-react'
+import { withRouter } from 'react-router-dom'
+import { Grid,Segment, Header, Icon } from 'semantic-ui-react'
+import { Form } from 'semantic-ui-react'
 import 'react-widgets/dist/css/react-widgets.css'
 import Moment from 'moment'
 import momentLocalizer from 'react-widgets-moment'
 import DateTimePicker from 'react-widgets/lib/DateTimePicker'
-import LoaderButton from '../components/LoaderButton'
 let jsreport = require('jsreport-browser-client-dist')
 jsreport.serverUrl = 'http://localhost:5488'
 
@@ -314,12 +313,6 @@ class ToolCostSummaryByPlant extends React.Component {
   /* Nancy for year */
 
   render() {
-    let divStyle = {
-      width: '90%',
-      height: '100%',
-      minHeight: '100%'
-      //      width: '100%'
-    }
     return (
 
   <Grid >

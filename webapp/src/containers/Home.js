@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './Home.css'
-import { Loader, Dimmer, Grid, Container, Segment, Rail, Menu, Header, Icon } from 'semantic-ui-react'
-import LoaderButton from '../components/LoaderButton'
+import { Loader, Dimmer, Grid,  } from 'semantic-ui-react'
 
 export default class Home extends Component {
   constructor(props) {
@@ -15,26 +14,14 @@ export default class Home extends Component {
   }
   render() {
 
-    let iconStyle = {
-      width: '50%',
-      height: '65%',
-      padding: '150px'
-      //      width: '100%'
-    }
 
 
-    let centerStyle = {
-      textwidth: '100%',
-      height: '100%'
-
-      //      width: '100%'
-    }
 
     let divStyle = {
       width: '100%',
       height: '100%',
-padding:'0px !important',
-margin:'0px !important',
+      padding:'0px !important',
+      margin:'0px !important',
     }
 
 
