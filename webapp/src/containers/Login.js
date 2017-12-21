@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Button, Form, Message } from 'semantic-ui-react'
-//import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
+import { Grid, Segment, Header, Icon, Button, Form, Message } from 'semantic-ui-react'
+import GenericModal from '../components/GenericModal'
 import './Login.css'
 import config from '../config'
 import {
@@ -23,7 +23,11 @@ class Login extends Component {
       password: '',
       emailStatus:'',
       passwordStatus:'',
-      formStatus:''
+      formStatus:'',
+      modalOpen: false,
+      modalMessage: '',
+      modalHeading: ''
+
     }
   // This binding is necessary to make `this` work in the callback
   this.emailChange = this.emailChange.bind(this)
@@ -32,9 +36,24 @@ class Login extends Component {
     // This binding is necessary to make `this` work in the callback
   this.validateEmail = this.validateEmail.bind(this)
 
+// This binding is necessary to make `this` work in the callback
+this.setModal = this.setModal.bind(this)
+ 
 
   }
 
+
+  setModal(open, message, heading) {
+    if (message) {
+      this.setState({
+        modalOpen: open,
+        modalMessage: message,
+        modalHeading: heading
+      })
+    } else {
+      this.setState({ modalOpen: open })
+    }
+  }
 
 
   login(email, password) {
@@ -115,7 +134,16 @@ class Login extends Component {
       await this.login(this.state.email, this.state.password)
       this.props.userHasAuthenticated(true)
 
-        this.props.history.push('/wait');
+    this.setState({ loading: false })
+
+          this.setState({
+            modalOpen: true,
+            modalHeading: 'Script Failure',
+            modalMessage: 'SSIS scripts did not process!'
+          })
+
+
+   //     this.props.history.push('/wait');
         
         
     } catch (e) {
@@ -125,9 +153,34 @@ class Login extends Component {
   }
 
   render() {
-   const {emailStatus,passwordStatus,loading} = this.state; 
+   const {emailStatus,passwordStatus,loading,modalOpen} = this.state; 
    let disableSubmitButton = (this.state.formStatus!=='success')?true:false;
+    const childProps = {
+      modalOpen: this.state.modalOpen,
+      modalHeading: this.state.modalHeading,
+      modalMessage: this.state.modalMessage,
+      setModal: this.setModal
+    }
+
     return (
+      <div >
+
+        {modalOpen ? <GenericModal childProps={childProps} />
+          :
+          <Grid >
+            <Grid.Row>
+              <Grid.Column width={3} />
+              <Grid.Column width={10}>
+                    &nbsp;<br />&nbsp;
+
+                <Segment>
+                  <Header as='h2'>
+                    <Icon name='plug' />
+                    <Header.Content>
+              Welcome to Busche!
+                    </Header.Content>
+                  </Header>
+
   <Form >
     {(emailStatus === 'error'
       ? 
@@ -171,8 +224,19 @@ class Login extends Component {
         />
     )}
 
-    <Button disabled={disableSubmitButton} loading={loading} onClick={this.handleSubmit}>Submit</Button>
+    <Button disabled={disableSubmitButton} 
+      loading={loading} onClick={this.handleSubmit}>Submit</Button>
   </Form>
+                </Segment>
+              </Grid.Column>
+              <Grid.Column width={3} />
+            </Grid.Row>
+
+
+          </Grid>
+        }
+      </div>
+
     )
   }
 }
