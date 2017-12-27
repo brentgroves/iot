@@ -21,25 +21,25 @@ class Login extends Component {
       loading: false,
       email: '',
       password: '',
-      emailStatus:'',
-      passwordStatus:'',
-      formStatus:'',
+      emailStatus: '',
+      passwordStatus: '',
+      formStatus: '',
       modalOpen: false,
       modalMessage: '',
       modalHeading: ''
 
     }
-  // This binding is necessary to make `this` work in the callback
-  this.emailChange = this.emailChange.bind(this)
-  // This binding is necessary to make `this` work in the callback
-  this.passwordChange = this.passwordChange.bind(this)
     // This binding is necessary to make `this` work in the callback
-  this.validateEmail = this.validateEmail.bind(this)
+    this.emailChange = this.emailChange.bind(this)
+    // This binding is necessary to make `this` work in the callback
+    this.passwordChange = this.passwordChange.bind(this)
+    // This binding is necessary to make `this` work in the callback
+    this.validateEmail = this.validateEmail.bind(this)
 
-// This binding is necessary to make `this` work in the callback
-this.setModal = this.setModal.bind(this)
- 
-
+    // This binding is necessary to make `this` work in the callback
+    this.setModal = this.setModal.bind(this)
+    // This binding is necessary to make `this` work in the callback
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
 
@@ -86,45 +86,42 @@ this.setModal = this.setModal.bind(this)
 
   // cant combine change functions because of async nature of setState
   emailChange = event => {
-    let emailStatus = this.validateEmail(event.target.value);
+    let emailStatus = this.validateEmail(event.target.value)
     this.setState({
       [event.target.id]: event.target.value,
       emailStatus: emailStatus
-    }) //async so be careful
-    let formStatus;
-    if (emailStatus === 'success' &&  this.state.passwordStatus === 'success'){
-      formStatus='success';
-    }else{
-      formStatus='error';
+    }) // async so be careful
+    let formStatus
+    if (emailStatus === 'success' && this.state.passwordStatus === 'success') {
+      formStatus = 'success'
+    } else {
+      formStatus = 'error'
     }
     this.setState({
       formStatus: formStatus
-    }) //async so be careful
-
-
+    }) // async so be careful
   }
 
   passwordChange = event => {
-    let passwordStatus;
-    if(event.target.value.length>0){
-      passwordStatus='success';
-    }else{
-      passwordStatus='error';
-    } 
+    let passwordStatus
+    if (event.target.value.length > 0) {
+      passwordStatus = 'success'
+    } else {
+      passwordStatus = 'error'
+    }
     this.setState({
       [event.target.id]: event.target.value,
       passwordStatus: passwordStatus
-    }) //async so be careful
-    let formStatus;
-    if (this.state.emailStatus === 'success' &&  passwordStatus === 'success'){
-      formStatus='success';
-    }else{
-      formStatus='error';
+    }) // async so be careful
+    let formStatus
+    if (this.state.emailStatus === 'success' && passwordStatus === 'success') {
+      formStatus = 'success'
+    } else {
+      formStatus = 'error'
     }
     this.setState({
       formStatus: formStatus
-    }) //async so be careful
-
+    }) // async so be careful
   }
 
   handleSubmit = async event => {
@@ -133,28 +130,31 @@ this.setModal = this.setModal.bind(this)
     try {
       await this.login(this.state.email, this.state.password)
       this.props.userHasAuthenticated(true)
+      let thisLv1 = this
 
-    this.setState({ loading: false })
+      this.setState({ loading: false })
 
-          this.setState({
-            modalOpen: true,
-            modalHeading: 'Script Failure',
-            modalMessage: 'SSIS scripts did not process!'
-          })
+      this.setState({
+        modalOpen: true,
+        modalHeading: 'Script Failure',
+        modalMessage: 'SSIS scripts did not process!'
+      })
 
 
-   //     this.props.history.push('/wait');
-        
-        
+      //     this.props.history.push('/wait');
     } catch (e) {
-      alert(e)
-      this.props.history.push('/errorModal');
+      this.setState({ loading: false })
+      this.setState({
+        modalOpen: true,
+        modalHeading: 'Login failure!',
+        modalMessage: 'file: Login.js'
+      })
     }
   }
 
   render() {
-   const {emailStatus,passwordStatus,loading,modalOpen} = this.state; 
-   let disableSubmitButton = (this.state.formStatus!=='success')?true:false;
+    const { emailStatus, passwordStatus, loading, formStatus, modalOpen } = this.state
+    let disableSubmitButton = (formStatus !== 'success') ? true : false
     const childProps = {
       modalOpen: this.state.modalOpen,
       modalHeading: this.state.modalHeading,
@@ -169,67 +169,43 @@ this.setModal = this.setModal.bind(this)
           :
           <Grid >
             <Grid.Row>
-              <Grid.Column width={3} />
-              <Grid.Column width={10}>
+              <Grid.Column width={5} />
+              <Grid.Column width={6}>
                     &nbsp;<br />&nbsp;
 
-                <Segment>
+                <Segment inverted>
                   <Header as='h2'>
-                    <Icon name='plug' />
+                    <Icon name='user outline' />
                     <Header.Content>
               Welcome to Busche!
                     </Header.Content>
                   </Header>
+                  <Form inverted>
+                    <Form.Input
+                      error={emailStatus === 'error'}
+                      id='email'
+                      label='Email' placeholder='joe@schmoe.com'
+                      onChange={this.emailChange}
+                    />
+                    <Message
+                      success
+                      header='Form Completed'
+                      content="You're all signed up for the newsletter"
+                    />
+                    <Form.Input
+                      error={passwordStatus === 'error'}
+                      id='password'
+                      label='Enter Password'
+                      type='password'
+                      onChange={this.passwordChange}
+                    />
 
-  <Form >
-    {(emailStatus === 'error'
-      ? 
-        <Form.Input 
-          error
-           id='email'
-          label='Email' placeholder='joe@schmoe.com' 
-          onChange={this.emailChange}
-        />
-      : 
-        <Form.Input 
-          id='email'
-          label='Email' placeholder='joe@schmoe.com' 
-          onChange={this.emailChange}
-        />
-    )}
-
-
-        <Message
-          success
-          header='Form Completed'
-          content="You're all signed up for the newsletter"
-        />
-
-
-    {(passwordStatus === 'error'
-      ? 
-        <Form.Input 
-          error
-          id='password'
-          label='Enter Password' 
-          type='password' 
-          onChange={this.passwordChange}
-        />
-      : 
-        <Form.Input 
-          id='password'
-          label='Enter Password' 
-          type='password' 
-          onChange={this.passwordChange}
-        />
-    )}
-
-    <Button disabled={disableSubmitButton} 
-      loading={loading} onClick={this.handleSubmit}>Submit</Button>
-  </Form>
+                    <Button disabled={disableSubmitButton}
+                      loading={loading} onClick={this.handleSubmit}>Submit</Button>
+                  </Form>
                 </Segment>
               </Grid.Column>
-              <Grid.Column width={3} />
+              <Grid.Column width={5} />
             </Grid.Row>
 
 
