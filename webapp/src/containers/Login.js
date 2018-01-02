@@ -56,24 +56,6 @@ class Login extends Component {
   }
 
 
-  login(email, password) {
-    const userPool = new CognitoUserPool({
-      UserPoolId: config.cognito.USER_POOL_ID,
-      ClientId: config.cognito.APP_CLIENT_ID
-    })
-    const user = new CognitoUser({ Username: email, Pool: userPool })
-    const authenticationData = { Username: email, Password: password }
-    const authenticationDetails = new AuthenticationDetails(authenticationData)
-
-    return new Promise((resolve, reject) =>
-      user.authenticateUser(authenticationDetails, {
-        onSuccess: result => resolve(),
-        onFailure: err => reject(err)
-      })
-    )
-  }
-
-
   validateEmail(x) {
     let atpos = x.indexOf('@')
     let dotpos = x.lastIndexOf('.')
@@ -124,32 +106,46 @@ class Login extends Component {
     }) // async so be careful
   }
 
+  login(email, password) {
+    const userPool = new CognitoUserPool({
+      UserPoolId: config.cognito.USER_POOL_ID,
+      ClientId: config.cognito.APP_CLIENT_ID
+    })
+    const user = new CognitoUser({ Username: email, Pool: userPool })
+    const authenticationData = { Username: email, Password: password }
+    const authenticationDetails = new AuthenticationDetails(authenticationData)
+
+    return new Promise((resolve, reject) =>
+      user.authenticateUser(authenticationDetails, {
+        onSuccess: result => resolve(),
+        onFailure: err => reject(err)
+      })
+    )
+  }
+
   handleSubmit = async event => {
     event.preventDefault()
     this.setState({ loading: true })
-    try {
-      await this.login(this.state.email, this.state.password)
-      this.props.userHasAuthenticated(true)
-      let thisLv1 = this
+    let thisLv1 = this
 
-      this.setState({ loading: false })
-
-      this.setState({
-        modalOpen: true,
-        modalHeading: 'Script Failure',
-        modalMessage: 'SSIS scripts did not process!'
+    await this.login(this.state.email, this.state.password)
+      .then(function () {
+        let thisLv2 = thisLv1
+        thisLv2.props.userHasAuthenticated(true)
+        thisLv2.setState({ loading: false })
+        thisLv2.setState({
+          modalOpen: true,
+          modalHeading: 'Next',
+          modalMessage: 'Implement Next Screen!'
+        })
+      }).catch(function (e) {
+        thisLv1.setState({
+          loading: false,
+          modalOpen: true,
+          modalHeading: 'Login failure!',
+          modalMessage: e.message
+        })
       })
-
-
-      //     this.props.history.push('/wait');
-    } catch (e) {
-      this.setState({ loading: false })
-      this.setState({
-        modalOpen: true,
-        modalHeading: 'Login failure!',
-        modalMessage: 'file: Login.js'
-      })
-    }
   }
 
   render() {
@@ -177,7 +173,7 @@ class Login extends Component {
                   <Header as='h2'>
                     <Icon name='user outline' />
                     <Header.Content>
-              Welcome to Busche!
+              Welcome to IOT!
                     </Header.Content>
                   </Header>
                   <Form inverted>
