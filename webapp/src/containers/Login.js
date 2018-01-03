@@ -157,7 +157,8 @@ class Login extends Component {
       modalMessage: this.state.modalMessage,
       setModal: this.setModal
     }
-
+//ncpl.bridge@outlook.com
+//Bridge1!
     return (
       <div >
 
@@ -173,7 +174,7 @@ class Login extends Component {
                   <Header as='h2'>
                     <Icon name='user outline' />
                     <Header.Content>
-              Welcome to IOT!
+              Welcome to NCPL Bridge!
                     </Header.Content>
                   </Header>
                   <Form inverted>
